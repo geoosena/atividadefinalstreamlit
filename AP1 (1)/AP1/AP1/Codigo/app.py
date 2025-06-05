@@ -4,8 +4,6 @@ import seaborn as sns
 import matplotlib.pyplot as plt
 
 st.set_page_config(page_title="Análise Shein", layout="wide")
-import pandas as pd
-import streamlit as st
 
 # Caminho do arquivo CSV
 caminho_csv = 'AP1 (1)/AP1/AP1/Codigo/dados_shein.csv'
