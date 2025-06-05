@@ -3,6 +3,7 @@ import pandas as pd
 import seaborn as sns
 import matplotlib.pyplot as plt
 import os
+st.set_page_config(page_title="Análise Shein", layout="wide")
 
 # 🚩 Leitura dos dados
 try:
@@ -12,7 +13,24 @@ except Exception as e:
     st.error(f"❌ Erro ao carregar os dados: {e}")
     st.stop()
 
-df = pd.read_csv(caminho_dados, sep=';')
+# 🔧 Limpeza dos dados
+df['preco2'] = df['preco2'].str.replace('R\$', '', regex=True).str.replace(',', '.').astype(float)
+df['descontos'] = df['descontos'].str.replace('%', '').str.replace('-', '').astype(float)
+
+# 🧠 Verificação
+st.write("🧠 Colunas encontradas no dataframe:")
+st.write(df.columns)
+
+st.write("🔍 Primeiras linhas do dataframe:")
+st.dataframe(df.head())
+
+# 📊 Exemplo: Slider de preço
+preco_min, preco_max = float(df['preco2'].min()), float(df['preco2'].max())
+preco_selecionado = st.slider('Selecione o preço', preco_min, preco_max, (preco_min, preco_max))
+
+df_filtrado = df[(df['preco2'] >= preco_selecionado[0]) & (df['preco2'] <= preco_selecionado[1])]
+
+st.dataframe(df_filtrado)
 
 st.set_page_config(layout="wide")
 st.title("Análise de Produtos da Shein")
