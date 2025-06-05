@@ -26,8 +26,6 @@ df_filtrado = df[(df['preco2'] >= preco_selecionado[0]) & (df['preco2'] <= preco
 st.dataframe(df_filtrado)
 
 
-st.dataframe(df)
-
 st.write(f"Faixa de preço: de {preco_min} até {preco_max}")
 st.dataframe(df)
     
