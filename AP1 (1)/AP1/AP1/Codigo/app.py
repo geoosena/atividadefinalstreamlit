@@ -4,7 +4,7 @@ import seaborn as sns
 import matplotlib.pyplot as plt
 
 try:
-    df = pd.read_csv('dados_shein.csv', sep=';')
+    df = pd.read_csv('dados_shein_tratado.csv', sep=';')
     st.success("Dados carregados com sucesso!")
 except Exception as e:
     st.error(f"Erro ao carregar os dados: {e}")
