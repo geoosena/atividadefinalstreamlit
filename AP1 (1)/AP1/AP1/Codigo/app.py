@@ -59,4 +59,3 @@ sns.boxplot(data=df_filtrado, x='faixa_preco', y='desconto_num', ax=ax4)
 plt.xticks(rotation=45)
 st.pyplot(fig4)
 
-❌ Erro ao carregar os dados: [Errno 2] No such file or directory: 'dados_shein.csv'
