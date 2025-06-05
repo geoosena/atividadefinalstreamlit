@@ -3,14 +3,12 @@ import pandas as pd
 import seaborn as sns
 import matplotlib.pyplot as plt
 
-# 🎨 Configuração da página
 st.set_page_config(
     layout="wide", 
     page_title="Shein Insights: Preços & Descontos", 
     page_icon="🛍️"
 )
 
-# 🎨 Estilo personalizado
 st.markdown(
     """
     <style>
@@ -36,11 +34,9 @@ st.markdown(
     unsafe_allow_html=True
 )
 
-# 🚩 Título
 st.title("Shein Insights: Preços & Descontos")
 st.markdown("Explore os **preços e descontos** dos produtos da Shein de forma interativa.")
 
-# 📥 Leitura dos dados
 caminho_dados = 'AP1 (1)/AP1/AP1/Codigo/dados_shein.csv'
 
 try:
@@ -50,18 +46,14 @@ except Exception as e:
     st.error(f"Erro ao carregar os dados: {e}")
     st.stop()
 
-# 🧹 Tratamento dos dados
 df['preco2'] = df['preco2'].astype(str).str.replace('R\$', '', regex=True).str.replace(',', '.').astype(float)
 
-# Tratando descontos
 df['desconto'] = df['desconto'].fillna('0').astype(str)
 df['desconto'] = df['desconto'].str.replace('%', '', regex=True).str.replace('-', '0').str.strip()
 df['desconto'] = pd.to_numeric(df['desconto'], errors='coerce').fillna(0)
 
-# ✅ Cálculo do percentual de desconto
 df['desconto_percentual'] = (df['desconto'] / (df['preco2'] + df['desconto'])) * 100
 
-# 🎯 Filtro de preço
 preco_min, preco_max = df['preco2'].min(), df['preco2'].max()
 
 preco_range = st.slider(
@@ -73,16 +65,13 @@ preco_range = st.slider(
 
 df_filtrado = df[(df['preco2'] >= preco_range[0]) & (df['preco2'] <= preco_range[1])]
 
-# ✅ Criando Faixa de Preço com Labels Bonitos
 bins = pd.cut(df_filtrado['preco2'], bins=5)
 labels = [f"R${round(interval.left,2)} - R${round(interval.right,2)}" for interval in bins.cat.categories]
 df_filtrado['faixa_preco'] = pd.cut(df_filtrado['preco2'], bins=5, labels=labels)
 
-# 🧾 Resumo estatístico
 st.subheader("📄 Resumo Estatístico dos Dados Filtrados")
 st.write(df_filtrado[['preco2', 'desconto', 'desconto_percentual']].describe())
 
-# 🎨 Gráficos Univariados
 st.subheader("📊 Gráficos Univariados")
 
 col1, col2 = st.columns(2)
@@ -101,7 +90,6 @@ with col2:
     ax2.set_xlabel('Preço (R$)')
     st.pyplot(fig2)
 
-# 🎯 Gráficos Bivariados
 st.subheader("📈 Gráficos Bivariados")
 
 col3, col4 = st.columns(2)
@@ -123,6 +111,5 @@ with col4:
     plt.xticks(rotation=45)
     st.pyplot(fig4)
 
-# 📜 Tabela de Dados
 st.subheader("🗂️ Tabela de Dados Filtrados")
 st.dataframe(df_filtrado)
