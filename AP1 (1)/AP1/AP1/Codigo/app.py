@@ -12,16 +12,26 @@ try:
 except Exception as e:
     st.error(f"Erro ao carregar os dados: {e}")
     st.stop()
-# 🔧 Conversão da coluna de preços
-df['preco2'] = pd.to_numeric(df['preco2'], errors='coerce')
 
-# 🎯 Definir faixa de preço
-preco_min = float(df['preco2'].min())
-preco_max = float(df['preco2'].max())
+# 🔧 Limpeza dos dados
+df['preco2'] = df['preco2'].str.replace('R\$', '', regex=True).str.replace(',', '.').astype(float)
+df['descontos'] = df['descontos'].str.replace('%', '').str.replace('-', '').astype(float)
 
-# 🖥️ Interface
-st.title("Dashboard de Análise da Shein")
-st.write(f"Faixa de preço dos produtos: de {preco_min} até {preco_max}")
+# 🧠 Verificação
+st.write("🧠 Colunas encontradas no dataframe:")
+st.write(df.columns)
+
+st.write("🔍 Primeiras linhas do dataframe:")
+st.dataframe(df.head())
+
+# 📊 Exemplo: Slider de preço
+preco_min, preco_max = float(df['preco2'].min()), float(df['preco2'].max())
+preco_selecionado = st.slider('Selecione o preço', preco_min, preco_max, (preco_min, preco_max))
+
+df_filtrado = df[(df['preco2'] >= preco_selecionado[0]) & (df['preco2'] <= preco_selecionado[1])]
+
+st.dataframe(df_filtrado)
+
 
 st.dataframe(df)
 
