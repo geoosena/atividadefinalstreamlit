@@ -4,9 +4,13 @@ import seaborn as sns
 import matplotlib.pyplot as plt
 import os
 
-
-caminho_dados = os.path.join('..', 'Bases tratadas', 'dados_shein_tratado.csv')
-
+# 🚩 Leitura dos dados
+try:
+    df = pd.read_csv('dados_shein.csv', sep=';')
+    st.success("✅ Dados carregados com sucesso!")
+except Exception as e:
+    st.error(f"❌ Erro ao carregar os dados: {e}")
+    st.stop()
 
 df = pd.read_csv(caminho_dados, sep=';')
 
