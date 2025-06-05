@@ -3,10 +3,20 @@ import pandas as pd
 import seaborn as sns
 import matplotlib.pyplot as plt
 
-caminho_dados = os.path.join('..', 'Bases tratadas', 'dados_shein_tratado.csv')
+try:
+    df = pd.read_csv('dados_shein.csv', sep=';')
+    st.success("Dados carregados com sucesso!")
+except Exception as e:
+    st.error(f"Erro ao carregar os dados: {e}")
+    st.stop()
 
+df['preco2'] = pd.to_numeric(df['preco2'], errors='coerce')
 
-df = pd.read_csv(caminho_dados, sep=';')
+preco_min = float(df['preco2'].min())
+preco_max = float(df['preco2'].max())
+
+st.write(f"Faixa de preço: de {preco_min} até {preco_max}")
+st.dataframe(df)
 
 st.set_page_config(layout="wide")
 st.title("Análise de Produtos da Shein")
