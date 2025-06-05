@@ -9,19 +9,16 @@ st.title("Shein Insights: Preços & Descontos")
 st.markdown(
     """
     <style>
-    /* Fundo rosa da página inteira */
     .stApp {
         background-color: #FFC0CB;  /* rosa claro */
         color: black;
         font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     }
 
-    /* Títulos em preto */
     .css-1d391kg h1, .css-1d391kg h2, .css-1d391kg h3 {
         color: black;
     }
 
-    /* Para botões e inputs */
     .stButton > button {
         background-color: black;
         color: #FFC0CB;
@@ -32,7 +29,6 @@ st.markdown(
         color: #ff99bb;
     }
 
-    /* Bordas em preto para caixas de texto, sliders etc */
     .stTextInput>div>input, .stSlider>div>input {
         border: 1px solid black !important;
     }
@@ -49,11 +45,9 @@ except Exception as e:
     st.error(f"Erro ao carregar os dados: {e}")
     st.stop()
 
-# 🔧 Limpeza dos dados
 df['preco2'] = df['preco2'].str.replace('R\$', '', regex=True).str.replace(',', '.').astype(float)
 df['descontos'] = df['descontos'].str.replace('%', '').str.replace('-', '').astype(float)
 
-# 📊 Exemplo: Slider de preço
 preco_min, preco_max = float(df['preco2'].min()), float(df['preco2'].max())
 preco_selecionado = st.slider('Selecione o preço', preco_min, preco_max, (preco_min, preco_max))
 
@@ -70,7 +64,6 @@ preco_min, preco_max = float(df['preco2'].min()), float(df['preco2'].max())
 preco_range = st.slider("Filtrar por faixa de preço (R$)", min_value=preco_min, max_value=preco_max, value=(preco_min, preco_max))
 
 df_filtrado = df[(df['preco2'] >= preco_range[0]) & (df['preco2'] <= preco_range[1])]
-
 
 st.subheader("Resumo estatístico dos dados filtrados:")
 st.write(df_filtrado[['preco2']].describe())
@@ -91,9 +84,7 @@ fig2, ax2 = plt.subplots()
 sns.boxplot(x=df_filtrado['preco2'], ax=ax2)
 st.pyplot(fig2)
 
-
 st.subheader("Gráficos Bivariados")
-
 
 df_filtrado['desconto_num'] = df_filtrado['desconto'].str.replace('%', '').str.strip()
 df_filtrado['desconto_num'] = pd.to_numeric(df_filtrado['desconto_num'], errors='coerce')
