@@ -3,10 +3,8 @@ import pandas as pd
 import seaborn as sns
 import matplotlib.pyplot as plt
 import os
-
-caminho_dados = os.path.join('..', 'Bases tratadas', 'dados_shein_tratado.csv')
-
-df = pd.read_csv(caminho_dados, sep=';')
+caminho_dados = os.path.join('Bases Upload', 'dados_shein.csv')
+df = pd.read_csv(caminho_dados)
 
 st.set_page_config(layout="wide")
 st.title("Análise de Produtos da Shein")
