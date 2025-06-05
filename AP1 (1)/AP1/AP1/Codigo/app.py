@@ -3,33 +3,19 @@ import pandas as pd
 import seaborn as sns
 import matplotlib.pyplot as plt
 
-st.set_page_config(page_title="Análise Shein", layout="wide")
+caminho_dados = os.path.join('..', 'Bases tratadas', 'dados_shein_tratado.csv')
 
-# 🧠 Verificação
-st.write("🧠 Colunas encontradas no dataframe:")
-st.write(df.columns)
 
-st.write("🔍 Primeiras linhas do dataframe:")
-st.dataframe(df.head())
-
-# 📊 Exemplo: Slider de preço
-preco_min, preco_max = float(df['preco2'].min()), float(df['preco2'].max())
-preco_selecionado = st.slider('Selecione o preço', preco_min, preco_max, (preco_min, preco_max))
-
-df_filtrado = df[(df['preco2'] >= preco_selecionado[0]) & (df['preco2'] <= preco_selecionado[1])]
-
-st.dataframe(df_filtrado)
+df = pd.read_csv(caminho_dados, sep=';')
 
 st.set_page_config(layout="wide")
 st.title("Análise de Produtos da Shein")
 st.markdown("Aplicação interativa para explorar preços e descontos de produtos da Shein.")
 
-
 preco_min, preco_max = float(df['preco2'].min()), float(df['preco2'].max())
 preco_range = st.slider("Filtrar por faixa de preço (R$)", min_value=preco_min, max_value=preco_max, value=(preco_min, preco_max))
 
 df_filtrado = df[(df['preco2'] >= preco_range[0]) & (df['preco2'] <= preco_range[1])]
-
 
 st.subheader("Resumo estatístico dos dados filtrados:")
 st.write(df_filtrado[['preco2']].describe())
