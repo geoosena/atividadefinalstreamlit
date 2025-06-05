@@ -13,9 +13,6 @@ except Exception as e:
     st.error(f"Erro ao carregar os dados: {e}")
     st.stop()
 
-df = pd.read_csv(caminho_dados, sep=';')
-df = df.drop_duplicates()
-
 # 🔧 Limpeza dos dados
 df['preco2'] = df['preco2'].str.replace('R\$', '', regex=True).str.replace(',', '.').astype(float)
 df['descontos'] = df['descontos'].str.replace('%', '').str.replace('-', '').astype(float)
