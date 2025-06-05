@@ -5,24 +5,6 @@ import matplotlib.pyplot as plt
 
 st.set_page_config(page_title="Análise Shein", layout="wide")
 
-# Caminho do arquivo CSV
-caminho_csv = 'AP1 (1)/AP1/AP1/Codigo/dados_shein.csv'
-
-# Tentativa de leitura dos dados
-try:
-    df = pd.read_csv(caminho_csv, sep=';')
-    st.success("Dados carregados com sucesso!")
-except FileNotFoundError as e:
-    st.error(f"Erro: Arquivo não encontrado! {e}")
-    st.stop()
-except Exception as e:
-    st.error(f"Ocorreu um erro ao carregar os dados: {e}")
-    st.stop()
-
-# Limpeza dos dados
-df['preco2'] = df['preco2'].str.replace('R\$', '', regex=True).str.replace(',', '.').astype(float)
-df['descontos'] = df['descontos'].str.replace('%', '').str.replace('-', '').astype(float)
-
 # 🧠 Verificação
 st.write("🧠 Colunas encontradas no dataframe:")
 st.write(df.columns)
