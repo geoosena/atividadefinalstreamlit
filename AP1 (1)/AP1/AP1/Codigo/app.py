@@ -10,7 +10,7 @@ st.set_page_config(
     page_icon="🛍️"
 )
 
-# 🎨 Estilo CSS personalizado
+# 🎨 Estilo personalizado
 st.markdown(
     """
     <style>
@@ -36,11 +36,11 @@ st.markdown(
     unsafe_allow_html=True
 )
 
-# 🚩 Título e descrição
+# 🚩 Título
 st.title("Shein Insights: Preços & Descontos")
-st.markdown("Aplicação interativa para explorar **preços, descontos e padrões** dos produtos da Shein.")
+st.markdown("Explore os **preços e descontos** dos produtos da Shein de forma interativa.")
 
-# 📥 Carregamento dos dados
+# 📥 Leitura dos dados
 caminho_dados = 'AP1 (1)/AP1/AP1/Codigo/dados_shein.csv'
 
 try:
@@ -53,29 +53,29 @@ except Exception as e:
 # 🧹 Tratamento dos dados
 df['preco2'] = df['preco2'].astype(str).str.replace('R\$', '', regex=True).str.replace(',', '.').astype(float)
 
+# Tratando descontos
 df['desconto'] = df['desconto'].fillna('0').astype(str)
 df['desconto'] = df['desconto'].str.replace('%', '', regex=True).str.replace('-', '0').str.strip()
 df['desconto'] = pd.to_numeric(df['desconto'], errors='coerce').fillna(0)
 
-# 🧠 Cálculo do percentual de desconto
+# ✅ Cálculo do percentual de desconto
 df['desconto_percentual'] = (df['desconto'] / (df['preco2'] + df['desconto'])) * 100
 
 # 🎯 Filtro de preço
-preco_min, preco_max = float(df['preco2'].min()), float(df['preco2'].max())
+preco_min, preco_max = df['preco2'].min(), df['preco2'].max()
 
 preco_range = st.slider(
     "🔎 Filtrar por faixa de preço (R$):", 
-    min_value=preco_min, 
-    max_value=preco_max, 
-    value=(preco_min, preco_max)
+    min_value=float(preco_min), 
+    max_value=float(preco_max), 
+    value=(float(preco_min), float(preco_max))
 )
 
-# 🔍 Aplicando filtro
 df_filtrado = df[(df['preco2'] >= preco_range[0]) & (df['preco2'] <= preco_range[1])]
 
-# 📊 Criando faixas de preço
+# ✅ Criando Faixa de Preço com Labels Bonitos
 bins = pd.cut(df_filtrado['preco2'], bins=5)
-labels = [f"De R${round(i.left, 2)} até R${round(i.right, 2)}" for i in bins.categories]
+labels = [f"R${round(interval.left,2)} - R${round(interval.right,2)}" for interval in bins.cat.categories]
 df_filtrado['faixa_preco'] = pd.cut(df_filtrado['preco2'], bins=5, labels=labels)
 
 # 🧾 Resumo estatístico
