@@ -6,6 +6,19 @@ import matplotlib.pyplot as plt
 st.set_page_config(layout="wide", page_title="Análise Shein", page_icon="🛍️")
 st.title("Shein Insights: Preços & Descontos")
 
+st.markdown(
+    """
+    <style>
+    .stApp {
+        background-color: #f0f2f6;
+        color: #333;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+    </style>
+    """,
+    unsafe_allow_html=True
+)
+
 caminho_dados = 'AP1 (1)/AP1/AP1/Codigo/dados_shein.csv'
 try:
     df = pd.read_csv(caminho_dados, sep=';')
