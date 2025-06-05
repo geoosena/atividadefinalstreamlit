@@ -16,27 +16,6 @@ except Exception as e:
 st.title("Análise de Produtos da Shein")
 st.markdown("Aplicação interativa para explorar preços e descontos de produtos da Shein.")
 
-# Verificar se a coluna existe
-if 'preco2' not in df.columns:
-    st.error("A coluna 'preco2' não foi encontrada no dataset!")
-    st.stop()
-
-# Converter para numérico, forçando erros para NaN
-df['preco2'] = pd.to_numeric(df['preco2'], errors='coerce')
-
-# Verificar se a coluna ficou toda NaN
-if df['preco2'].isna().all():
-    st.error("Todos os valores na coluna 'preco2' são inválidos ou não numéricos!")
-    st.stop()
-
-# Remover linhas onde 'preco2' é NaN
-df = df.dropna(subset=['preco2'])
-
-# Definir valores mínimo e máximo
-preco_min, preco_max = float(df['preco2'].min()), float(df['preco2'].max())
-
-st.write(f"Preço mínimo: {preco_min}, Preço máximo: {preco_max}")
-
 preco_min, preco_max = float(df['preco2'].min()), float(df['preco2'].max())
 preco_range = st.slider("Filtrar por faixa de preço (R$)", min_value=preco_min, max_value=preco_max, value=(preco_min, preco_max))
 
