@@ -2,7 +2,7 @@ import streamlit as st
 import pandas as pd
 import seaborn as sns
 import matplotlib.pyplot as plt
-import os
+
 st.set_page_config(page_title="Análise Shein", layout="wide")
 
 # 🚩 Leitura dos dados
