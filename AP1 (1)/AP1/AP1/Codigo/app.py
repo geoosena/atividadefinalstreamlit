@@ -3,6 +3,8 @@ import pandas as pd
 import seaborn as sns
 import matplotlib.pyplot as plt
 
+st.set_page_config(layout="wide")
+
 caminho_dados = 'AP1 (1)/AP1/AP1/Codigo/dados_shein.csv'
 try:
     df = pd.read_csv(caminho_dados, sep=';')
