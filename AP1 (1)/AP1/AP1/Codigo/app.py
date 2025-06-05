@@ -49,6 +49,8 @@ df['preco2'] = df['preco2'].str.replace('R\$', '', regex=True).str.replace(',', 
 df['desconto'] = df['desconto'].fillna('0%').astype(str).str.replace('%', '').str.strip()
 df['desconto'] = pd.to_numeric(df['desconto'], errors='coerce').fillna(0)
 
+df['desconto_percentual'] = (df['desconto'] / (df['preco2'] + df['desconto'])) * 100
+
 preco_min, preco_max = float(df['preco2'].min()), float(df['preco2'].max())
 preco_selecionado = st.slider('Selecione o preço', preco_min, preco_max, (preco_min, preco_max))
 
