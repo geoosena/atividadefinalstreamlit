@@ -5,15 +5,15 @@ import matplotlib.pyplot as plt
 
 st.set_page_config(page_title="Análise Shein", layout="wide")
 
-# 🚩 Leitura dos dados
+#  Leitura dos dados
 try:
     df = pd.read_csv('dados_shein.csv', sep=';')
-    st.success("✅ Dados carregados com sucesso!")
+    st.success("Dados carregados com sucesso!")
 except Exception as e:
-    st.error(f"❌ Erro ao carregar os dados: {e}")
+    st.error(f"Erro ao carregar os dados: {e}")
     st.stop()
 
-# 🔧 Limpeza dos dados
+# Limpeza dos dados
 df['preco2'] = df['preco2'].str.replace('R\$', '', regex=True).str.replace(',', '.').astype(float)
 df['descontos'] = df['descontos'].str.replace('%', '').str.replace('-', '').astype(float)
 
