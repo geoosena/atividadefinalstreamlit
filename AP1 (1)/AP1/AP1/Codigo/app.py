@@ -3,14 +3,14 @@ import pandas as pd
 import seaborn as sns
 import matplotlib.pyplot as plt
 
-# Configuração da página
+# 🎨 Configuração da página
 st.set_page_config(
     layout="wide", 
     page_title="Shein Insights: Preços & Descontos", 
     page_icon="🛍️"
 )
 
-# 🎨 Estilo personalizado (fundo rosa e preto)
+# 🎨 Estilo CSS personalizado
 st.markdown(
     """
     <style>
@@ -36,45 +36,54 @@ st.markdown(
     unsafe_allow_html=True
 )
 
-# 🗂️ Carregamento dos dados
+# 🚩 Título e descrição
+st.title("Shein Insights: Preços & Descontos")
+st.markdown("Aplicação interativa para explorar **preços, descontos e padrões** dos produtos da Shein.")
+
+# 📥 Carregamento dos dados
 caminho_dados = 'AP1 (1)/AP1/AP1/Codigo/dados_shein.csv'
+
 try:
     df = pd.read_csv(caminho_dados, sep=';')
-    st.success("Dados carregados com sucesso")
+    st.success("Dados carregados com sucesso!")
 except Exception as e:
     st.error(f"Erro ao carregar os dados: {e}")
     st.stop()
 
-# 🔧 Tratamento dos dados
+# 🧹 Tratamento dos dados
 df['preco2'] = df['preco2'].astype(str).str.replace('R\$', '', regex=True).str.replace(',', '.').astype(float)
 
 df['desconto'] = df['desconto'].fillna('0').astype(str)
 df['desconto'] = df['desconto'].str.replace('%', '', regex=True).str.replace('-', '0').str.strip()
 df['desconto'] = pd.to_numeric(df['desconto'], errors='coerce').fillna(0)
 
-# ➕ Cálculo do percentual de desconto
+# 🧠 Cálculo do percentual de desconto
 df['desconto_percentual'] = (df['desconto'] / (df['preco2'] + df['desconto'])) * 100
 
-# 🔍 Filtros interativos
-st.title("Shein Insights: Preços & Descontos")
-st.markdown("Aplicação interativa para explorar preços, descontos e padrões nos produtos da Shein.")
-
+# 🎯 Filtro de preço
 preco_min, preco_max = float(df['preco2'].min()), float(df['preco2'].max())
+
 preco_range = st.slider(
-    "Filtrar por faixa de preço (R$)", 
+    "🔎 Filtrar por faixa de preço (R$):", 
     min_value=preco_min, 
     max_value=preco_max, 
     value=(preco_min, preco_max)
 )
 
+# 🔍 Aplicando filtro
 df_filtrado = df[(df['preco2'] >= preco_range[0]) & (df['preco2'] <= preco_range[1])]
 
-# 🧾 Resumo dos dados filtrados
-st.subheader("Resumo Estatístico dos Dados Filtrados:")
+# 📊 Criando faixas de preço
+bins = pd.cut(df_filtrado['preco2'], bins=5)
+labels = [f"De R${round(i.left, 2)} até R${round(i.right, 2)}" for i in bins.categories]
+df_filtrado['faixa_preco'] = pd.cut(df_filtrado['preco2'], bins=5, labels=labels)
+
+# 🧾 Resumo estatístico
+st.subheader("📄 Resumo Estatístico dos Dados Filtrados")
 st.write(df_filtrado[['preco2', 'desconto', 'desconto_percentual']].describe())
 
-# 📊 Gráficos Univariados
-st.subheader("Gráficos Univariados")
+# 🎨 Gráficos Univariados
+st.subheader("📊 Gráficos Univariados")
 
 col1, col2 = st.columns(2)
 
@@ -92,8 +101,8 @@ with col2:
     ax2.set_xlabel('Preço (R$)')
     st.pyplot(fig2)
 
-# 📈 Gráficos Bivariados
-st.subheader("Gráficos Bivariados")
+# 🎯 Gráficos Bivariados
+st.subheader("📈 Gráficos Bivariados")
 
 col3, col4 = st.columns(2)
 
@@ -107,7 +116,6 @@ with col3:
 
 with col4:
     st.markdown("**Boxplot: Desconto por Faixa de Preço**")
-    df_filtrado['faixa_preco'] = pd.cut(df_filtrado['preco2'], bins=5)
     fig4, ax4 = plt.subplots()
     sns.boxplot(data=df_filtrado, x='faixa_preco', y='desconto_percentual', ax=ax4, palette='pink')
     ax4.set_xlabel('Faixa de Preço')
@@ -115,6 +123,6 @@ with col4:
     plt.xticks(rotation=45)
     st.pyplot(fig4)
 
-# 🗒️ Visualização dos dados na tela
-st.subheader("Tabela de Dados Filtrados")
+# 📜 Tabela de Dados
+st.subheader("🗂️ Tabela de Dados Filtrados")
 st.dataframe(df_filtrado)
