@@ -4,13 +4,21 @@ import seaborn as sns
 import matplotlib.pyplot as plt
 
 st.set_page_config(page_title="Análise Shein", layout="wide")
+import pandas as pd
+import streamlit as st
 
-#  Leitura dos dados
+# Caminho do arquivo CSV
+caminho_csv = 'AP1 (1)/AP1/AP1/Codigo/dados_shein.csv'
+
+# Tentativa de leitura dos dados
 try:
-    df = pd.read_csv('dados_shein.csv', sep=';')
+    df = pd.read_csv(caminho_csv, sep=';')
     st.success("Dados carregados com sucesso!")
+except FileNotFoundError as e:
+    st.error(f"Erro: Arquivo não encontrado! {e}")
+    st.stop()
 except Exception as e:
-    st.error(f"Erro ao carregar os dados: {e}")
+    st.error(f"Ocorreu um erro ao carregar os dados: {e}")
     st.stop()
 
 # Limpeza dos dados
