@@ -12,13 +12,18 @@ try:
 except Exception as e:
     st.error(f"Erro ao carregar os dados: {e}")
     st.stop()
-
-# 🏷️ Converter coluna de preço
+# 🔧 Conversão da coluna de preços
 df['preco2'] = pd.to_numeric(df['preco2'], errors='coerce')
 
-# 🎯 Definir mínimo e máximo
+# 🎯 Definir faixa de preço
 preco_min = float(df['preco2'].min())
 preco_max = float(df['preco2'].max())
+
+# 🖥️ Interface
+st.title("Dashboard de Análise da Shein")
+st.write(f"Faixa de preço dos produtos: de {preco_min} até {preco_max}")
+
+st.dataframe(df)
 
 st.write(f"Faixa de preço: de {preco_min} até {preco_max}")
 st.dataframe(df)
