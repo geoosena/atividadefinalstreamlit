@@ -12,33 +12,18 @@ try:
 except Exception as e:
     st.error(f"Erro ao carregar os dados: {e}")
     st.stop()
+# 🔧 Conversão da coluna de preços
+df['preco2'] = pd.to_numeric(df['preco2'], errors='coerce')
 
-# 👀 Conferindo colunas
-st.write("🧠 Colunas encontradas:", df.columns.tolist())
-st.dataframe(df.head())
+# 🎯 Definir faixa de preço
+preco_min = float(df['preco2'].min())
+preco_max = float(df['preco2'].max())
 
-# 🔧 Tratando preços
-if 'preco2' in df.columns:
-    df['preco2'] = pd.to_numeric(df['preco2'], errors='coerce')
+# 🖥️ Interface
+st.title("Dashboard de Análise da Shein")
+st.write(f"Faixa de preço dos produtos: de {preco_min} até {preco_max}")
 
-    if df['preco2'].isnull().all():
-        st.error("❌ Todos os valores da coluna 'preco2' estão inválidos.")
-        st.stop()
-
-    preco_min = float(df['preco2'].min())
-    preco_max = float(df['preco2'].max())
-
-    st.write(f"💸 Faixa de preço: {preco_min} até {preco_max}")
-
-    # 🎛️ Filtro interativo
-    faixa = st.slider("Selecione a faixa de preço:", min_value=preco_min, max_value=preco_max, value=(preco_min, preco_max))
-    df_filtrado = df[(df['preco2'] >= faixa[0]) & (df['preco2'] <= faixa[1])]
-    st.dataframe(df_filtrado)
-
-else:
-    st.error("❌ Coluna 'preco2' não encontrada no arquivo.")
-    st.stop()
-
+st.dataframe(df)
 
 st.write(f"Faixa de preço: de {preco_min} até {preco_max}")
 st.dataframe(df)
