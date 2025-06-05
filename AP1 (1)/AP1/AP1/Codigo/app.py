@@ -2,22 +2,22 @@ import streamlit as st
 import pandas as pd
 import seaborn as sns
 import matplotlib.pyplot as plt
+import os
 
 caminho_dados = os.path.join('..', 'Bases tratadas', 'dados_shein_tratado.csv')
-try:
-    df = pd.read_csv(caminho_dados, sep=';')
-except FileNotFoundError:
-    st.error(f"Arquivo não encontrado: {caminho_dados}. Verifique o caminho e tente novamente.")
-    st.stop()  # Para a execução do app caso não tenha dados
+
+df = pd.read_csv(caminho_dados, sep=';')
 
 st.set_page_config(layout="wide")
 st.title("Análise de Produtos da Shein")
 st.markdown("Aplicação interativa para explorar preços e descontos de produtos da Shein.")
 
+
 preco_min, preco_max = float(df['preco2'].min()), float(df['preco2'].max())
 preco_range = st.slider("Filtrar por faixa de preço (R$)", min_value=preco_min, max_value=preco_max, value=(preco_min, preco_max))
 
 df_filtrado = df[(df['preco2'] >= preco_range[0]) & (df['preco2'] <= preco_range[1])]
+
 
 st.subheader("Resumo estatístico dos dados filtrados:")
 st.write(df_filtrado[['preco2']].describe())
@@ -38,9 +38,7 @@ fig2, ax2 = plt.subplots()
 sns.boxplot(x=df_filtrado['preco2'], ax=ax2)
 st.pyplot(fig2)
 
-
 st.subheader("Gráficos Bivariados")
-
 
 df_filtrado['desconto_num'] = df_filtrado['desconto'].str.replace('%', '').str.strip()
 df_filtrado['desconto_num'] = pd.to_numeric(df_filtrado['desconto_num'], errors='coerce')
@@ -60,4 +58,3 @@ fig4, ax4 = plt.subplots()
 sns.boxplot(data=df_filtrado, x='faixa_preco', y='desconto_num', ax=ax4)
 plt.xticks(rotation=45)
 st.pyplot(fig4)
-
