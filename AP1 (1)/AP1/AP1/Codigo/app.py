@@ -17,13 +17,6 @@ except Exception as e:
 df['preco2'] = df['preco2'].str.replace('R\$', '', regex=True).str.replace(',', '.').astype(float)
 df['descontos'] = df['descontos'].str.replace('%', '').str.replace('-', '').astype(float)
 
-# 🧠 Verificação
-st.write("🧠 Colunas encontradas no dataframe:")
-st.write(df.columns)
-
-st.write("🔍 Primeiras linhas do dataframe:")
-st.dataframe(df.head())
-
 # 📊 Exemplo: Slider de preço
 preco_min, preco_max = float(df['preco2'].min()), float(df['preco2'].max())
 preco_selecionado = st.slider('Selecione o preço', preco_min, preco_max, (preco_min, preco_max))
