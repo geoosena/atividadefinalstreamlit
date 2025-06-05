@@ -3,7 +3,7 @@ import pandas as pd
 import seaborn as sns
 import matplotlib.pyplot as plt
 
-st.set_page_config(layout="wide")
+st.set_page_config(layout="wide", page_title="Análise Shein", page_icon="🛍️")
 
 caminho_dados = 'AP1 (1)/AP1/AP1/Codigo/dados_shein.csv'
 try:
@@ -13,10 +13,8 @@ except Exception as e:
     st.error(f"Erro ao carregar os dados: {e}")
     st.stop()
     
-st.set_page_config(layout="wide")
 st.title("Análise de Produtos da Shein")
 st.markdown("Aplicação interativa para explorar preços e descontos de produtos da Shein.")
-
 
 preco_min, preco_max = float(df['preco2'].min()), float(df['preco2'].max())
 preco_range = st.slider("Filtrar por faixa de preço (R$)", min_value=preco_min, max_value=preco_max, value=(preco_min, preco_max))
