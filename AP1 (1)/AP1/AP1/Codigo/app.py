@@ -12,6 +12,16 @@ try:
 except Exception as e:
     st.error(f"Erro ao carregar os dados: {e}")
     st.stop()
+
+# 🏷️ Converter coluna de preço
+df['preco2'] = pd.to_numeric(df['preco2'], errors='coerce')
+
+# 🎯 Definir mínimo e máximo
+preco_min = float(df['preco2'].min())
+preco_max = float(df['preco2'].max())
+
+st.write(f"Faixa de preço: de {preco_min} até {preco_max}")
+st.dataframe(df)
     
 st.title("Análise de Produtos da Shein")
 st.markdown("Aplicação interativa para explorar preços e descontos de produtos da Shein.")
