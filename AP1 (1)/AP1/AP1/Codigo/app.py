@@ -9,10 +9,32 @@ st.title("Shein Insights: Preços & Descontos")
 st.markdown(
     """
     <style>
+    /* Fundo rosa da página inteira */
     .stApp {
-        background-color: #f0f2f6;
-        color: #333;
+        background-color: #FFC0CB;  /* rosa claro */
+        color: black;
         font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    /* Títulos em preto */
+    .css-1d391kg h1, .css-1d391kg h2, .css-1d391kg h3 {
+        color: black;
+    }
+
+    /* Para botões e inputs */
+    .stButton > button {
+        background-color: black;
+        color: #FFC0CB;
+        border: none;
+    }
+    .stButton > button:hover {
+        background-color: #333333;
+        color: #ff99bb;
+    }
+
+    /* Bordas em preto para caixas de texto, sliders etc */
+    .stTextInput>div>input, .stSlider>div>input {
+        border: 1px solid black !important;
     }
     </style>
     """,
