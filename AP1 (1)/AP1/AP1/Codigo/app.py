@@ -4,6 +4,7 @@ import seaborn as sns
 import matplotlib.pyplot as plt
 
 st.set_page_config(layout="wide", page_title="Análise Shein", page_icon="🛍️")
+st.title("Análise de Produtos da Shein")
 
 caminho_dados = 'AP1 (1)/AP1/AP1/Codigo/dados_shein.csv'
 try:
@@ -24,8 +25,6 @@ preco_selecionado = st.slider('Selecione o preço', preco_min, preco_max, (preco
 df_filtrado = df[(df['preco2'] >= preco_selecionado[0]) & (df['preco2'] <= preco_selecionado[1])]
 
 st.dataframe(df_filtrado)
-
-
 st.write(f"Faixa de preço: de {preco_min} até {preco_max}")
 st.dataframe(df)
     
