@@ -4,7 +4,7 @@ import seaborn as sns
 import matplotlib.pyplot as plt
 
 st.set_page_config(layout="wide", page_title="Análise Shein", page_icon="🛍️")
-st.title("Análise de Produtos da Shein")
+st.title("Shein Insights: Preços & Descontos")
 
 caminho_dados = 'AP1 (1)/AP1/AP1/Codigo/dados_shein.csv'
 try:
