@@ -86,8 +86,12 @@ st.pyplot(fig2)
 
 st.subheader("Gráficos Bivariados")
 
-df_filtrado['desconto_num'] = df_filtrado['desconto'].str.replace('%', '').str.strip()
-df_filtrado['desconto_num'] = pd.to_numeric(df_filtrado['desconto_num'], errors='coerce')
+df_filtrado = df[(df['preco2'] >= preco_range[0]) & (df['preco2'] <= preco_range[1])].copy()
+
+# Tratar coluna desconto para valores numéricos, substituindo NaN por 0
+df_filtrado['desconto_num'] = df_filtrado['desconto'].fillna('0%').astype(str).str.replace('%', '').str.strip()
+df_filtrado['desconto_num'] = pd.to_numeric(df_filtrado['desconto_num'], errors='coerce').fillna(0)
+
 
 col3, col4 = st.columns(2)
 
