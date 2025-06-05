@@ -3,7 +3,7 @@ import pandas as pd
 import seaborn as sns
 import matplotlib.pyplot as plt
 
-caminho_dados = os.path.join('..', 'Codigo', 'dados_shein_tratado.csv')
+caminho_dados = os.path.join('..', 'Bases tratadas', 'dados_shein_tratado.csv')
 try:
     df = pd.read_csv(caminho_dados, sep=';')
 except FileNotFoundError:
