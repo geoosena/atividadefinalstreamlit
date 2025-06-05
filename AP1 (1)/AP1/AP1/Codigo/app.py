@@ -46,7 +46,8 @@ except Exception as e:
     st.stop()
 
 df['preco2'] = df['preco2'].str.replace('R\$', '', regex=True).str.replace(',', '.').astype(float)
-df['descontos'] = df['descontos'].str.replace('%', '').str.replace('-', '').astype(float)
+df['desconto'] = df['desconto'].fillna('0%').astype(str).str.replace('%', '').str.strip()
+df['desconto'] = pd.to_numeric(df['desconto'], errors='coerce').fillna(0)
 
 preco_min, preco_max = float(df['preco2'].min()), float(df['preco2'].max())
 preco_selecionado = st.slider('Selecione o preço', preco_min, preco_max, (preco_min, preco_max))
